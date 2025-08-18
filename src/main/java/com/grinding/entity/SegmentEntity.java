@@ -1,5 +1,9 @@
 package com.grinding.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -9,18 +13,22 @@ public class SegmentEntity{
 
 @Id
 @GeneratedValue(strategy=GenerationType.IDENTITY)
+@JsonIgnore
 private Long id;
 
 @Column(name="departure_date", nullable=false)
+@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
 private LocalDateTime departureDate;
 
 @Column(name="arrival_date", nullable=false)
+@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
 private LocalDateTime arrivalDate;
 
 @ManyToOne(fetch = FetchType.LAZY)
 @JoinColumn(name = "flight_id", nullable = false)
-
+@JsonBackReference
 private FlightEntity flight;
+
 public SegmentEntity(){
 }
 

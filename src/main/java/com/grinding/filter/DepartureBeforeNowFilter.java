@@ -1,6 +1,6 @@
 package com.grinding.filter;
 
-import com.grinding.testing.Flight;
+import com.grinding.entity.FlightEntity;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -11,15 +11,16 @@ import java.util.stream.Collectors;
 public class DepartureBeforeNowFilter implements FlightFilter{
 
 @Override
-public List<Flight> filter(List<Flight> flights){
+public String getName(){
+    return "departure-before-now";
+}
+
+@Override
+public List<FlightEntity> filter(List<FlightEntity> flights){
     LocalDateTime now=LocalDateTime.now();
     return flights.stream()
-            .filter(flight->flight
-                             .getSegments()
-                             .stream()
-                             .allMatch(segment->!segment
-                                                  .getDepartureDate()
-                                                  .isBefore(now)))
+            .filter(flight->flight.getSegments().stream()
+                             .allMatch(segment->segment.getDepartureDate().isBefore(now)))
             .collect(Collectors.toList());
 }
 }

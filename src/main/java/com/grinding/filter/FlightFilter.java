@@ -1,9 +1,12 @@
 package com.grinding.filter;
 
-import com.grinding.testing.Flight;
+import com.grinding.entity.FlightEntity;
 
 import java.util.List;
 
-public interface FlightFilter {
-List<Flight> filter(List<Flight> flights);
+public interface FlightFilter{
+
+String getName();
+
+List<FlightEntity> filter(List<FlightEntity> flights);
 }
