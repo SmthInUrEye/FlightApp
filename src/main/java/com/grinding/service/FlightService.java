@@ -1,6 +1,7 @@
 package com.grinding.service;
 
 
+import com.grinding.dto.FlightDTO;
 import com.grinding.entity.FlightEntity;
 import com.grinding.mapper.FlightMapper;
 import com.grinding.repository.FlightRepository;
@@ -9,43 +10,49 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
-public class FlightService{
+public class FlightService {
 
-private final FlightRepository flightRepository;
-private final FlightMapper flightMapper;
+    private final FlightRepository flightRepository;
+    private final FlightMapper flightMapper;
 
 
-public FlightService(FlightRepository flightRepository,FlightMapper flightMapper){
-    this.flightRepository=flightRepository;
-    this.flightMapper=flightMapper;
-}
+    public FlightService(FlightRepository flightRepository, FlightMapper flightMapper) {
+        this.flightRepository = flightRepository;
+        this.flightMapper = flightMapper;
+    }
 
-public FlightEntity createFlight(Flight flight){
-    FlightEntity entity=flightMapper.toEntity(flight);
-    return flightRepository.save(entity);
-}
+    public FlightDTO createFlight(FlightDTO flightDTO) {
+        FlightEntity entity = flightMapper.toEntity(flightDTO);
+        FlightEntity savedEntity = flightRepository.save(entity);
+        return flightMapper.toDTO(savedEntity);
+    }
 
-public List<FlightEntity> getAllFlights(){
-    return flightRepository.findAll();
-}
+    public List<FlightDTO> getAllFlights() {
+        List<FlightEntity> entities = flightRepository.findAll();
+        return entities.stream().map(flightMapper::toDTO).collect(Collectors.toList());
 
-public Optional<FlightEntity> getFlightById(Long id){
-    return flightRepository.findById(id);
-}
+    }
 
-public FlightEntity updateFlight(Long id,Flight updatedFlight){
-    return flightRepository.findById(id).map(existing->{
+    public Optional<FlightDTO> getFlightById(Long id) {
+        return flightRepository.findById(id).map(flightMapper::toDTO);
+    }
 
-        existing.setSegments(flightMapper.toEntity(updatedFlight).getSegments());
-        return flightRepository.save(existing);
-    }).orElseThrow(()->new RuntimeException("Flight not found with ID "+id));
-}
+    public FlightDTO updateFlight(Long id, FlightDTO updatedFlight) {
+        return flightRepository.findById(id).map(existingEntity -> {
 
-public void deleteFlight(Long id){
-    flightRepository.deleteById(id);
-}
+            FlightEntity updatedEntity = flightMapper.toEntity(updatedFlight);
+            updatedEntity.setId(id);
 
+            FlightEntity savedEntity = flightRepository.save(updatedEntity);
+            return flightMapper.toDTO(savedEntity);
+        }).orElseThrow(() -> new RuntimeException("Flight not found with ID " + id));
+    }
+
+    public void deleteFlight(Long id) {
+        flightRepository.deleteById(id);
+    }
 
 }
