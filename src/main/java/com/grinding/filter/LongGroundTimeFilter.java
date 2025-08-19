@@ -1,7 +1,7 @@
 package com.grinding.filter;
 
-import com.grinding.entity.FlightEntity;
-import com.grinding.entity.SegmentEntity;
+import com.grinding.dto.FlightDTO;
+import com.grinding.dto.SegmentDTO;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
@@ -17,17 +17,17 @@ public String getName(){
 }
 
 @Override
-public List<FlightEntity> filter(List<FlightEntity> flights){
+public List<FlightDTO> filter(List<FlightDTO> flights){
 
     return flights.stream().filter(flight->{
-        List<SegmentEntity> segments=flight.getSegments();
+        List<SegmentDTO> segments=flight.getSegments();
 
         long totalGroundTime=0;
 
         for(int i=0;i<segments.size()-1;i++){
 
-            SegmentEntity current=segments.get(i);
-            SegmentEntity next=segments.get(i+1);
+            SegmentDTO current=segments.get(i);
+            SegmentDTO next=segments.get(i+1);
 
             long groundTime=Duration.between(current.getArrivalDate(),next.getDepartureDate()).toMinutes();
 

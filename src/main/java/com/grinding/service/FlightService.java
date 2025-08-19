@@ -6,6 +6,7 @@ import com.grinding.entity.FlightEntity;
 import com.grinding.mapper.FlightMapper;
 import com.grinding.repository.FlightRepository;
 import com.grinding.testing.Flight;
+import com.grinding.testing.FlightBuilder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -55,4 +56,11 @@ public class FlightService {
         flightRepository.deleteById(id);
     }
 
+    public void generateDemoFlights() {
+        List<Flight> demoFlights = FlightBuilder.createFlights();
+        demoFlights.forEach(flight -> {
+            FlightDTO flightDTO = flightMapper.toDTO(flight);
+            this.createFlight(flightDTO);
+        });
+    }
 }

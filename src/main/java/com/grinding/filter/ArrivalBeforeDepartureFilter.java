@@ -1,6 +1,6 @@
 package com.grinding.filter;
 
-import com.grinding.entity.FlightEntity;
+import com.grinding.dto.FlightDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public String getName(){
 }
 
 @Override
-public List<FlightEntity> filter(List<FlightEntity> flights){
+public List<FlightDTO> filter(List<FlightDTO> flights){
     return flights.stream()
             .filter(flight->flight.getSegments().stream()
                              .allMatch(segment->segment.getArrivalDate().isBefore(segment.getDepartureDate())))
