@@ -1,7 +1,7 @@
 package com.grinding.filter;
 
-import com.grinding.testing.Flight;
-import com.grinding.testing.Segment;
+import com.grinding.dto.FlightDTO;
+import com.grinding.dto.SegmentDTO;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
@@ -12,23 +12,32 @@ import java.util.stream.Collectors;
 public class LongGroundTimeFilter implements FlightFilter{
 
 @Override
-public List<Flight> filter(List<Flight> flights){
+public String getName(){
+    return "long-ground-time";
+}
 
-    return flights.stream()
-            .filter(flight->{
-        List<Segment> segments=flight
-                                .getSegments();
+@Override
+public List<FlightDTO> filter(List<FlightDTO> flights){
+
+    return flights.stream().filter(flight->{
+        List<SegmentDTO> segments=flight.getSegments();
 
         long totalGroundTime=0;
 
         for(int i=0;i<segments.size()-1;i++){
-            Segment current=segments.get(i);
-            Segment next=segments.get(i+1);
+
+            SegmentDTO current=segments.get(i);
+            SegmentDTO next=segments.get(i+1);
+
             long groundTime=Duration.between(current.getArrivalDate(),next.getDepartureDate()).toMinutes();
+
+            if(groundTime<0){
+                return false;
+            }
+
             totalGroundTime+=groundTime;
         }
-        return totalGroundTime<=120;
-    })
-            .collect(Collectors.toList());
+        return totalGroundTime>=120;
+    }).collect(Collectors.toList());
 }
 }

@@ -1,10 +1,9 @@
 package com.grinding.service;
 
-import com.grinding.filter.ArrivalBeforeDepartureFilter;
-import com.grinding.filter.DepartureBeforeNowFilter;
+import com.grinding.dto.FlightDTO;
+import com.grinding.entity.FlightEntity;
 import com.grinding.filter.FlightFilter;
-import com.grinding.filter.LongGroundTimeFilter;
-import com.grinding.testing.Flight;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,11 +17,8 @@ public FlightFilterService(List<FlightFilter> filters){
     this.filters=filters;
 }
 
-public List<Flight> filterAll(List<Flight> flights){
-    List<Flight> result=flights;
-    for(FlightFilter filter: filters){
-        result=filter.filter(result);
-    }
-    return result;
+public List<FlightDTO> filterByName(String name,List<FlightDTO> flights){
+    return filters.stream().filter(filter->filter.getName().equalsIgnoreCase(name)).findFirst().map(filter->filter.filter(flights)).orElseThrow(()->new IllegalArgumentException("Фильтр с именем '"+name+"' не найден"));
 }
+
 }

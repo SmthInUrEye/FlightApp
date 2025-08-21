@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Entity
 @Table(name="flights")
 public class FlightEntity{
@@ -14,6 +15,11 @@ private Long id;
 
 @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, orphanRemoval = true)
 private List<SegmentEntity> segments=new ArrayList<>();
+
+public FlightEntity(Long id,List<SegmentEntity> segments){
+    this.id=id;
+    this.segments=segments;
+}
 
 public FlightEntity(){
 }
@@ -29,4 +35,9 @@ public List<SegmentEntity> getSegments(){
 public void setSegments(List<SegmentEntity> segments){
     this.segments=segments;
 }
+
+public void setId(Long id) {
+    this.id = id;
+}
+
 }
