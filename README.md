@@ -79,3 +79,7 @@
     }
   ]
 }
+```
+### Реализована поддержка Swagger UI для наглядного тестирования API 
+<img width="1151" height="710" alt="image" src="https://github.com/user-attachments/assets/823e8ae3-613d-46df-88b4-d5187c1b03ca" />
+
