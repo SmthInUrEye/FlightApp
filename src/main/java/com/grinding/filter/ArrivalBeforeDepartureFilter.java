@@ -16,9 +16,6 @@ public String getName(){
 
 @Override
 public List<FlightDTO> filter(List<FlightDTO> flights){
-    return flights.stream()
-            .filter(flight->flight.getSegments().stream()
-                             .allMatch(segment->segment.getArrivalDate().isBefore(segment.getDepartureDate())))
-            .collect(Collectors.toList());
+    return flights.stream().filter(flight->flight.getSegments().stream().allMatch(segment->segment.getArrivalDate().isBefore(segment.getDepartureDate()))).collect(Collectors.toList());
 }
 }

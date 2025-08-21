@@ -31,7 +31,7 @@ public List<FlightDTO> filter(List<FlightDTO> flights){
 
             long groundTime=Duration.between(current.getArrivalDate(),next.getDepartureDate()).toMinutes();
 
-            if (groundTime < 0) {
+            if(groundTime<0){
                 return false;
             }
 

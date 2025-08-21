@@ -1,59 +1,61 @@
 package com.grinding.dto;
 
-import com.grinding.testing.Segment;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 import java.util.Objects;
 
-public class FlightDTO {
-    private Long id;
-    private List<SegmentDTO> segments;
+public class FlightDTO{
 
-    public FlightDTO(Long id, List<SegmentDTO> segments) {
-        this.id=id;
-        this.segments = segments;
-    }
-    
-    public FlightDTO() {
-    }
+@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+private Long id;
 
-    public FlightDTO(List<SegmentDTO> segments) {
-        this.segments = segments;
-    }
+private List<SegmentDTO> segments;
 
-    public Long getId() {
-        return id;
-    }
+public FlightDTO(Long id,List<SegmentDTO> segments){
+    this.id=id;
+    this.segments=segments;
+}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+public FlightDTO(){
+}
 
-    public List<SegmentDTO> getSegments() {
-        return segments;
-    }
+public FlightDTO(List<SegmentDTO> segments){
+    this.segments=segments;
+}
 
-    public void setSegments(List<SegmentDTO> segments) {
-        this.segments = segments;
-    }
+public Long getId(){
+    return id;
+}
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        FlightDTO flightDTO = (FlightDTO) o;
-        return Objects.equals(id, flightDTO.id) && Objects.equals(segments, flightDTO.segments);
-    }
+public void setId(Long id){
+    this.id=id;
+}
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, segments);
-    }
+public List<SegmentDTO> getSegments(){
+    return segments;
+}
 
-    @Override
-    public String toString() {
-        return "FlightDTO{" +
-         "id=" + id +
-         ", segments=" + segments +
-         '}';
-    }
+public void setSegments(List<SegmentDTO> segments){
+    this.segments=segments;
+}
+
+@Override
+public boolean equals(Object o){
+    if(o==null||getClass()!=o.getClass())
+        return false;
+    FlightDTO flightDTO=(FlightDTO)o;
+    return Objects.equals(id,flightDTO.id)&&Objects.equals(segments,flightDTO.segments);
+}
+
+@Override
+public int hashCode(){
+    return Objects.hash(id,segments);
+}
+
+@Override
+public String toString(){
+    return "FlightDTO{"+"id="+id+", segments="+segments+'}';
+}
 }

@@ -18,9 +18,6 @@ public String getName(){
 @Override
 public List<FlightDTO> filter(List<FlightDTO> flights){
     LocalDateTime now=LocalDateTime.now();
-    return flights.stream()
-            .filter(flight->flight.getSegments().stream()
-                             .allMatch(segment->segment.getDepartureDate().isBefore(now)))
-            .collect(Collectors.toList());
+    return flights.stream().filter(flight->flight.getSegments().stream().allMatch(segment->segment.getDepartureDate().isBefore(now))).collect(Collectors.toList());
 }
 }
