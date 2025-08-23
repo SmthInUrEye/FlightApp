@@ -37,7 +37,7 @@ public List<FlightDTO> filter(List<FlightDTO> flights){
 
             totalGroundTime+=groundTime;
         }
-        return totalGroundTime>=120;
+        return totalGroundTime<=120;
     }).collect(Collectors.toList());
 }
 }
