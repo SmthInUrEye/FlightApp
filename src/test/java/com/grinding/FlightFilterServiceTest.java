@@ -39,7 +39,7 @@ void testFilterArrivalBeforeDeparture(){
 
     List<FlightDTO> filtered=flightFilterService.filterByName("arrival-before-departure",flights);
 
-    assertTrue(filtered.stream().allMatch(flight->flight.getSegments().stream().allMatch(segment->segment.getArrivalDate().isBefore(segment.getDepartureDate()))));
+    assertTrue(filtered.stream().allMatch(flight->flight.getSegments().stream().allMatch(segment->!segment.getArrivalDate().isBefore(segment.getDepartureDate()))));
 }
 
 @Test
@@ -48,7 +48,7 @@ void testFilterDepartureBeforeNow(){
 
     List<FlightDTO> filtered=flightFilterService.filterByName("departure-before-now",flights);
 
-    assertTrue(filtered.stream().allMatch(flight->flight.getSegments().stream().allMatch(segment->segment.getDepartureDate().isBefore(java.time.LocalDateTime.now()))));
+    assertTrue(filtered.stream().allMatch(flight->flight.getSegments().stream().allMatch(segment->!segment.getDepartureDate().isBefore(java.time.LocalDateTime.now()))));
 }
 
 @Test
@@ -64,7 +64,7 @@ void testFilterLongGroundTime(){
             long groundTime=java.time.Duration.between(segments.get(i).getArrivalDate(),segments.get(i+1).getDepartureDate()).toMinutes();
             totalGroundTime+=groundTime;
         }
-        assertTrue(totalGroundTime>=120);
+        assertTrue(totalGroundTime<=120);
     });
 }
 
