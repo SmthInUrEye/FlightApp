@@ -9,4 +9,7 @@ public interface FlightFilter{
 String getName();
 
 List<FlightDTO> filter(List<FlightDTO> flights);
+
+default void removeInvalidFlights(List<FlightDTO> flights) {
+}
 }
