@@ -17,8 +17,16 @@ public FlightFilterService(List<FlightFilter> filters){
     this.filters=filters;
 }
 
-public List<FlightDTO> filterByName(String name,List<FlightDTO> flights){
-    return filters.stream().filter(filter->filter.getName().equalsIgnoreCase(name)).findFirst().map(filter->filter.filter(flights)).orElseThrow(()->new IllegalArgumentException("Фильтр с именем '"+name+"' не найден"));
+
+public List<FlightDTO> filterByName(String name, List<FlightDTO> flights) {
+    FlightFilter filter = filters.stream()
+                           .filter(f -> f.getName().equalsIgnoreCase(name))
+                           .findFirst()
+                           .orElseThrow(() -> new IllegalArgumentException("Фильтр с именем '" + name + "' не найден"));
+
+    filter.removeInvalidFlights(flights);
+
+    return filter.filter(flights);
 }
 
 }
